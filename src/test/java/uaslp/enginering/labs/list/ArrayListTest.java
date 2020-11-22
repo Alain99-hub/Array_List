@@ -122,8 +122,8 @@ public class ArrayListTest {
         arrayList.add(new Student("Francisco"));
 
         // When:
-//       assertThrows(NoSuchElementException.class,()-> arrayList.insert(reference, new Student("Lupita"),
- //               ArrayList.InsertPosition.BEFORE),"La referencia no existe");
+      assertThrows(NoSuchElementException.class,()-> arrayList.insert(reference, new Student("Lupita"),
+               ArrayList.InsertPosition.BEFORE),"La referencia no existe");
 
 
     }
