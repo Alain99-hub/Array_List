@@ -1,11 +1,18 @@
 package uaslp.enginering.labs.list;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import uaslp.enginering.labs.model.Student;
+
+import java.beans.Beans;
+import java.util.NoSuchElementException;
+
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ArrayListTest {
+
+
 
 
     @Test
@@ -72,6 +79,55 @@ public class ArrayListTest {
     }
 
     @Test
+    public void givenAListWithElements_whenDeleteFirst_thenElementIsDeleted() {
+        // Given:
+
+
+            ArrayList<Student> arrayList = new ArrayList<>();
+
+            arrayList.add(new Student("Ivan"));
+            arrayList.add(new Student("Israel"));
+            arrayList.add(new Student("Francisco"));
+
+            // When:
+            // arrayList.delete(4);
+
+            // Then:
+            assertThrows(IndexOutOfBoundsException.class,()-> arrayList.delete(4),"EL indice no existe");
+
+    }
+    @Test
+    public void givenAListWithElements_whenElementNotExist_thenThrowException() {
+        // Given:
+
+
+        ArrayList<Student> arrayList = new ArrayList<>();
+
+        arrayList.add(new Student("Ivan"));
+        arrayList.add(new Student("Israel"));
+        arrayList.add(new Student("Francisco"));
+
+
+        // Then:
+        assertThrows(IndexOutOfBoundsException.class,()-> arrayList.getAt(4),"EL indice no existe");
+
+    }
+    @Test
+    public void givenAListWith3Elements_whenInsertAtReference_thenThrowException() {
+        // Given:
+        ArrayList<Student> arrayList = new ArrayList<>();
+        Student reference = new Student("Joselyn");
+
+        arrayList.add(new Student("Ivan"));
+        arrayList.add(new Student("Francisco"));
+
+        // When:
+//       assertThrows(NoSuchElementException.class,()-> arrayList.insert(reference, new Student("Lupita"),
+ //               ArrayList.InsertPosition.BEFORE),"La referencia no existe");
+
+
+    }
+    @Test
     public void givenAListWith3Elements_whenDeleteLast_thenElementIsDeleted() {
         // Given:
         ArrayList<Student> arrayList = new ArrayList<>();
@@ -117,13 +173,16 @@ public class ArrayListTest {
         arrayList.add(new Student("Francisco"));
 
         // When:
-        arrayList.delete(-1);
+        //arrayList.delete(-1);
 
         // Then:
         assertEquals(3, arrayList.size());
         assertEquals(arrayList.getAt(0).getName(), "Ivan");
         assertEquals(arrayList.getAt(1).getName(), "Israel");
         assertEquals(arrayList.getAt(2).getName(), "Francisco");
+
+        assertThrows(IndexOutOfBoundsException.class,()-> arrayList.delete(-1),"EL indice no existe");
+
     }
 
     @Test
@@ -136,20 +195,22 @@ public class ArrayListTest {
         arrayList.add(new Student("Francisco"));
 
         // When:
-        arrayList.delete(4);
+        //arrayList.delete(4);
 
         // Then:
         assertEquals(3, arrayList.size());
         assertEquals(arrayList.getAt(0).getName(), "Ivan");
         assertEquals(arrayList.getAt(1).getName(), "Israel");
         assertEquals(arrayList.getAt(2).getName(), "Francisco");
+        assertThrows(IndexOutOfBoundsException.class,()-> arrayList.delete(4),"EL indice no existe");
+
     }
 
     @Test
     public void givenAListWith3Elements_whenInsertAtBeginningBefore_thenElementIsInserted() {
         // Given:
         ArrayList<Student> arrayList = new ArrayList<>();
-        Student reference = new Student("Ivan");
+        Student reference = new Student("Pedro");
 
         arrayList.add(reference);
         arrayList.add(new Student("Israel"));
@@ -161,9 +222,10 @@ public class ArrayListTest {
         // Then:
         assertEquals(4, arrayList.size());
         assertEquals(arrayList.getAt(0).getName(), "Lupita");
-        assertEquals(arrayList.getAt(1).getName(), "Ivan");
+        assertEquals(arrayList.getAt(1).getName(), "Pedro");
         assertEquals(arrayList.getAt(2).getName(), "Israel");
         assertEquals(arrayList.getAt(3).getName(), "Francisco");
+
     }
 
     @Test
@@ -269,6 +331,31 @@ public class ArrayListTest {
         assertEquals(arrayList.getAt(1).getName(), "Israel");
         assertEquals(arrayList.getAt(2).getName(), "Lupita");
         assertEquals(arrayList.getAt(3).getName(), "Francisco");
+
+
+    }
+
+    @Test
+    public void givenAListWith3Elements_whenInsertAtMiddleAfter_thenThrowException() {
+        // Given:
+        ArrayList<Student> arrayList = new ArrayList<>();
+        Student reference = new Student("Israel");
+
+        arrayList.add(new Student("Ivan"));
+        arrayList.add(new Student("Nathalia"));
+        arrayList.add(new Student("Francisco"));
+
+        // When:
+        //arrayList.insert(reference, new Student("Lupita"), ArrayList.InsertPosition.AFTER);
+
+        // Then:
+        assertEquals(3, arrayList.size());
+        assertEquals(arrayList.getAt(0).getName(), "Ivan");
+        assertEquals(arrayList.getAt(1).getName(), "Nathalia");
+        assertEquals(arrayList.getAt(2).getName(), "Francisco");
+        assertThrows(NoSuchElementException.class, ()->arrayList.insert(reference,new Student("lupita"),ArrayList.InsertPosition.AFTER),"El elemento no se ecnuentra");
+
+
     }
 
     @Test

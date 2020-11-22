@@ -1,5 +1,7 @@
 package uaslp.enginering.labs.list;
 
+import java.util.NoSuchElementException;
+
 public class ArrayList<T> {
 
     public enum InsertPosition {
@@ -17,7 +19,7 @@ public class ArrayList<T> {
         }
 
         public T next() {
-            return (T)elements[currentIndex++];
+            return (T) elements[currentIndex++];
         }
 
     }
@@ -47,19 +49,27 @@ public class ArrayList<T> {
     }
 
     public void delete(T element) {
+
         for (int index = 0; index < lastIndex; index++) {
-            if (elements[index].equals(element)) {
-                delete(index);
-                break;
-            }
+
+                if (elements[index].equals(element)) {
+                    delete(index);
+                    return;
+                }
+
         }
+        throw new NoSuchElementException("El elemnto no existe");
     }
 
-    public void delete(int index) {
-        if (lastIndex - index > 0 && index >= 0) {
-            lastIndex--;
-            System.arraycopy(elements, index + 1, elements, index, lastIndex - index);
-        }
+    public void delete(int index) throws IndexOutOfBoundsException {
+
+
+            if (lastIndex - index > 0 && index >= 0) {
+                lastIndex--;
+                System.arraycopy(elements, index + 1, elements, index, lastIndex - index);
+                return;
+            }
+        throw new IndexOutOfBoundsException("El indice no existe");
     }
 
     public Iterator getIterator() {
@@ -70,17 +80,24 @@ public class ArrayList<T> {
         return lastIndex;
     }
 
-    public T getAt(int index) {
-        return index < lastIndex ? (T)elements[index] : null;
+    public T getAt(int index) throws IndexOutOfBoundsException {
+        if(index < lastIndex){
+            return (T)elements[index];
+        }
+        throw new IndexOutOfBoundsException("El inidice no existe");
+
     }
 
+
     public void insert(T reference, T newStudent, InsertPosition insertPosition) {
+
 
         if (lastIndex == elements.length) {
             increaseArraySize();
         }
 
         for (int index = 0; index < lastIndex; index++) {
+
             if (elements[index].equals(reference)) {
                 if (insertPosition.equals(InsertPosition.BEFORE)) {
                     for (int j = lastIndex; j > index; j--) {
@@ -93,10 +110,14 @@ public class ArrayList<T> {
                     }
                     elements[index + 1] = newStudent;
                 }
-                break;
+                lastIndex++;
+                return;
+
             }
         }
-        lastIndex++;
+        throw new NoSuchElementException("El elemento no se ecnuentra");
+
+
     }
 
     private void increaseArraySize() {
@@ -106,4 +127,6 @@ public class ArrayList<T> {
 
         elements = newArray;
     }
+
+
 }
